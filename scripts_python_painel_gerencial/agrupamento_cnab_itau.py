@@ -24,7 +24,7 @@ def extrair_colunas(linhas, tamanhos):
     # Retorna a lista colunas:
     return colunas
 
-# Define a pasta de entrada
+# Define a pasta onde os arquivos CSV estão localizados
 pasta = r'G:\Drives compartilhados\arquitetura\Documentos\Arquitetura Operacional\BACKOFFICE FINANCEIRO\DASHBOARD\DASH_OPERACIONAL\LOOKER\Arquivos_diarios\BOLETOS_ITAU'
 
 # Define o tamanho de cada coluna
