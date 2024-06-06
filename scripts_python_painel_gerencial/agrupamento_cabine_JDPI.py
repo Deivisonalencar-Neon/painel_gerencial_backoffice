@@ -127,7 +127,6 @@ df = df.dropna(subset=['Grupo'])
 # Cria a coluna "Fonte" com o texto fixo 'Cabine JDIP'
 df['Fonte'] = 'Cabine JDIP'
 
-
 # Caso seja necessário identificar como cada transação foi classificada, retirar comentario abaixo: 
 #df.to_csv(r'incluir um caminho')
 
