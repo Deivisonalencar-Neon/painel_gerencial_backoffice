@@ -20,25 +20,23 @@ for arquivo in os.listdir(pasta):
         caminho_arquivo = os.path.join(pasta,arquivo)
         # Lê o arquivo CSV
         df_temp = pd.read_csv(caminho_arquivo)
-        # Adiciona o DataFrame à lista
-        dfs.append(df_temp)
         # Redefine a variavel 'data' como as primeiras 8 letras do nome do arquivo
         data = arquivo[:8]
+        # Redefine a varivael data com o formato de data correto
+        data = pd.to_datetime(data, format='%d%m%Y')
+        # Cria a coluna "DataCompra" com o resultado da variavel data
+        df_temp['DATA'] = data
+        # Adiciona o DataFrame à lista
+        dfs.append(df_temp)
 
 # Junta todos os DataFrames em um único DataFrame
 df = pd.concat(dfs, ignore_index=True)
-
-# Redefine a varivael data com o formato de data correto
-data = pd.to_datetime(data, format='%d%m%Y')
 
 # Retira o "R$" do valor, e faz as modificações necessárias para transforma-los em número
 df['Total'] = df['Total'].str.replace('R$ ','')
 df['Total'] = df['Total'].str.replace('.','')
 df['Total'] = df['Total'].str.replace(',','.')
 df['Total'] = df['Total'].astype(float)
-
-# Cria a coluna "DataCompra" com o resultado da variavel data
-df['DATA'] = data
 
 # Cria a coluna "DebCre" com o resultado das validações acima
 df['DEBCRED'] = 'Credito'

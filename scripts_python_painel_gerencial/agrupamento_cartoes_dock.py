@@ -30,19 +30,18 @@ for arquivo in os.listdir(pasta):
         caminho_arquivo = os.path.join(pasta, arquivo)
         # Lê o arquivo CSV
         df_temp = pd.read_csv(caminho_arquivo)
+        # Redefine a variavel 'data' como as primeiras 8 letras do nome do arquivo
+        data = arquivo[:8]
+        # Redefine a variavel 'data' com o formato de data correto
+        data = pd.to_datetime(data, format='%d%m%Y')
+        # Cria a coluna "DataCompra" com o resultado da variavel data
+        df_temp['DataCompra'] = data
         # Adiciona o DataFrame à lista
         dfs.append(df_temp)
         # Redefine a variavel 'data' como as primeiras 8 letras do nome do arquivo
-        data = arquivo[:8]
-
+        
 # Junta todos os DataFrames em um único DataFrame
 df = pd.concat(dfs, ignore_index=True)
-
-# Redefine a varivael data com o formato de data correto
-data = pd.to_datetime(data, format='%d%m%Y')
-
-# Cria a coluna "DataCompra" com o resultado da variavel data
-df['DataCompra'] = data
 
 # Cria a função que Lê cada uma das linhas para determinar o tipo de transação
 def def_moe_clas_tipo(coluna):
@@ -124,4 +123,4 @@ df.loc[df['Tipo_transacao'] == 'Debito', 'Valor'] = df['Valor']*-1
 agrupamento_tipo = df.groupby(['DataCompra','Tipo_transacao','Moeda','Classificacao','Tipo_cartao'])['Valor'].sum().round(2)
 
 # Extrai o resultado para uma planilha especifica
-agrupamento_tipo.to_csv(r'C:\Users\U002669\Downloads\teste_dock4.csv')
+agrupamento_tipo.to_csv(r'C:\Users\U002669\Downloads\teste_dock07_06.csv')
