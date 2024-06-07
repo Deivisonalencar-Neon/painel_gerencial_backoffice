@@ -54,4 +54,18 @@ df['FONTE'] = 'Cartão de Crédito'
 agrupamento_tipo = df.groupby(['DATA','DEBCRED','CLASSIFICAÇÃO1','CLASSIFICAÇÃO2','FONTE'])['Total'].sum().round(2)
 
 # Extrai o resultado para uma planilha especifica
-print(agrupamento_tipo)
+agrupamento_tipo.to_csv(r'C:\Users\U002669\Downloads\teste_dock07_06.csv')
+
+# Define a pasta onde os arquivos CSV serão guardados
+processados = r'G:\Drives compartilhados\arquitetura\Documentos\Arquitetura Operacional\BACKOFFICE FINANCEIRO\DASHBOARD\DASH_OPERACIONAL\LOOKER\Arquivos_diarios\PROCESSAMENTO_DOCK\Processados'
+
+# Percorre todos os arquivos na pasta, um por vez
+for arquivo in os.listdir(pasta):
+# Se o arquivo terminar com '.csv' ou seja, for do tipo csv
+    if arquivo.endswith('.csv'):
+        # Define o caminho completo do arquivo como uma junção entre o nome da pasta e do arquivo
+        pasta_anterior = os.path.join(pasta,arquivo)
+        # Define o caminho completo pra onde o arquivo vai como uma junção entre o nome da pasta e do arquivo
+        pasta_posterior = os.path.join(processados,arquivo)
+        # Renomeia o arquivo fazendo assim a movimentação entre as pastas
+        os.rename(pasta_anterior,pasta_posterior)

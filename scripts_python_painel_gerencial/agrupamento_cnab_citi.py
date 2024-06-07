@@ -81,3 +81,17 @@ agrupamento_tipo = df.groupby(['Data','CreDeb','Classificacao1','Classificacao2'
 
 # Extrai o resultado para uma planilha especifica
 agrupamento_tipo.to_csv(r'C:\Users\U002669\Downloads\validacao_agrupada_cnab_citi.csv')
+
+# Define a pasta onde os arquivos CSV serão guardados
+processados = r'G:\Drives compartilhados\arquitetura\Documentos\Arquitetura Operacional\BACKOFFICE FINANCEIRO\DASHBOARD\DASH_OPERACIONAL\LOOKER\Arquivos_diarios\BOLETOS_CITI\Processados'
+
+# Percorre todos os arquivos na pasta, um por vez
+for arquivo in os.listdir(pasta):
+# Se o arquivo terminar com '.RET' ou seja, for do tipo csv
+    if arquivo.endswith('.RET'):
+        # Define o caminho completo do arquivo como uma junção entre o nome da pasta e do arquivo
+        pasta_anterior = os.path.join(pasta,arquivo)
+        # Define o caminho completo pra onde o arquivo vai como uma junção entre o nome da pasta e do arquivo
+        pasta_posterior = os.path.join(processados,arquivo)
+        # Renomeia o arquivo fazendo assim a movimentação entre as pastas
+        os.rename(pasta_anterior,pasta_posterior)
