@@ -12,3 +12,5 @@ for arquivo in os.listdir(pasta):
         dfs.append(df_temp)
 
 df = pd.concat(dfs, ignore_index=True)
+
+print('Agrupamento gerado, e arquivos movidos para pasta de processados')

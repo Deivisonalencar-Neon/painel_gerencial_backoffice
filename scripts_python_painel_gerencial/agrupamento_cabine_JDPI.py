@@ -59,7 +59,7 @@ def def_tipo_transacao(row):
     elif (row['Mensagem'] == "STR0004" and row['Finalidade'] == des_tib):
         return 'TIB - DEBITO'
 
-    # Se a mensagem for do tipo "STR0004" e a finalidade for "73" retorna "TIB debito"
+    # Se a mensagem for do tipo "STR0004" e a finalidade for "121" retorna "CUSTO - PIX SQ TROCO"
     elif (row['Mensagem'] == "STR0004" and row['Finalidade'] == des_cust):
         return 'CUSTO - PIX SQ TROCO'
     
@@ -149,3 +149,5 @@ for arquivo in os.listdir(pasta):
         pasta_posterior = os.path.join(processados,arquivo)
         # Renomeia o arquivo fazendo assim a movimentação entre as pastas
         os.rename(pasta_anterior,pasta_posterior)
+
+print('Agrupamento gerado, e arquivos movidos para pasta de processados')

@@ -3,7 +3,7 @@ import os
 import pandas as pd
 
 # Define a pasta onde os arquivos CSV estão localizados
-pasta = r'\\sgnfiles.neon.local\Compartilhado\CEC\ConciliationFiles\ConciliationInput\Processed\2024\04.APRIL\20240414'
+pasta = r'\\sgnfiles.neon.local\Compartilhado\CEC\ConciliationFiles\ConciliationInput\Processed\2024\06.JUNE\20240609'
 
 # Cria uma Lista vazia para armazenar todos os DataFrames dos arquivos CSV
 dfs = []
@@ -45,7 +45,9 @@ df['CLASSIFICAÇÃO2'] = '-'
 df['Fonte']  = 'PIX JD'
 
 # Agrupa os valores pelos campos definidos
-agrupamento_tipo = df.groupby(['Data','Debcre','CLASSIFICAÇÃO2','OperationDescription']).agg(soma=('Value','sum'),contagem=('Value','size')).reset_index().round(2)
+agrupamento_tipo = df.groupby(['Data','Debcre','CLASSIFICAÇÃO2','Fonte','OperationDescription']).agg(soma=('Value','sum'),contagem=('Value','size')).reset_index().round(2)
 
 # Extrai o resultado para uma planilha especifica
-agrupamento_tipo.to_csv(r'C:\Users\U002669\Downloads\validacao_agrupada_pix_12_04.csv')
+agrupamento_tipo.to_csv(r'C:\Users\U002669\Downloads\validacao_agrupada_pix_09_06.csv')
+
+print('Arquivo gerado')

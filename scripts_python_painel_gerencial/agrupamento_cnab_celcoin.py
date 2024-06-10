@@ -58,3 +58,5 @@ for arquivo in os.listdir(pasta):
         pasta_posterior = os.path.join(processados,arquivo)
         # Renomeia o arquivo fazendo assim a movimentação entre as pastas
         os.rename(pasta_anterior,pasta_posterior)
+
+print('Agrupamento gerado, e arquivos movidos para pasta de processados')

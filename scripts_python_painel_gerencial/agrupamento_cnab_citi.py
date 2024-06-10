@@ -56,7 +56,7 @@ for arquivo in os.listdir(pasta):
 
         # Ajusta a valor transformando espaços em branco em zero e transforma em float
         df_temp['Valor'] = df_temp['Valor'].replace('','0')
-        df_temp['Valor'] = df_temp['Valor'].astype(float) / 100
+        df_temp['Valor'] = df_temp['Valor'].astype(float) / -100
 
         # Cria a coluna "DebCre" com o resultado das validações acima
         df_temp['CreDeb'] = 'Credito'
@@ -95,3 +95,5 @@ for arquivo in os.listdir(pasta):
         pasta_posterior = os.path.join(processados,arquivo)
         # Renomeia o arquivo fazendo assim a movimentação entre as pastas
         os.rename(pasta_anterior,pasta_posterior)
+
+print('Agrupamento gerado, e arquivos movidos para pasta de processados')
