@@ -1,7 +1,11 @@
 # Importa biblitecas para tratativa de dados
+from googleapiclient.discovery import build
+from google.oauth2 import service_account
+from datetime import datetime, timedelta
 import pandas as pd
-import csv
 import os
+import socket
+import csv
 
 # Define a pasta onde os arquivos CSV estão localizados
 pasta = r'G:\Drives compartilhados\arquitetura\Documentos\Arquitetura Operacional\BACKOFFICE FINANCEIRO\DASHBOARD\DASH_OPERACIONAL\LOOKER\Arquivos_diarios\CDB_TOPAZ'
@@ -58,8 +62,39 @@ df['Fonte'] = 'CDB TOPAZ'
 # Agrupa os valores pelos campos definidos
 agrupamento_tipo = df.groupby(['Data Lançamento','Tipo Oper.','Investidor','Classificacao','Fonte']).agg(soma=('Valor','sum'),contagem=('Valor','size')).reset_index().round(2)
 
-# Extrai o resultado para uma planilha especifica
-agrupamento_tipo.to_csv(r'C:\Users\U002669\Desktop\teste\validacao_agrupada_CDB_TOPAZ_12_042.csv')
+# Para cada coluna do agrupamento acima
+for coluna in agrupamento_tipo.columns:
+    # Transforma a coluna em str(texto)
+    agrupamento_tipo[coluna] = agrupamento_tipo[coluna].astype(str)
+
+# Transforma o agrupamento em uma lista e o armazena na variavel 'lista'
+lista = agrupamento_tipo.values.tolist()
+
+# Define um tempo de timeout para o processo de integração
+socket.setdefaulttimeout(300)
+
+# Define a pasta em que o arquivo json de autenticação está
+SERVICE_ACCOUNT_FILE = r'C:\Users\U002669\Documents\GitHub\painel_gerencial_backoffice\auten_integ_python_sheets\autenticacao_integracao.json'
+
+# Realiza a conexão com a planilha
+SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+creds = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+service = build('sheets', 'v4', credentials=creds)
+sheet = service.spreadsheets()
+
+# Define o id da planilha no google Sheets
+sheet_id = '1Q07l7m9jj4CEHtvuBc0tiQOedNSSz28Sed2EAZShlEc'
+
+# Define a dict 'value_range_body' com base na lista criada anteriormente
+value_range_body = {"values": lista}
+
+# Imputando as informações na "Página1" da coluna "A" até a coluna "G"
+print('Realizando importação via API...', end=' ', flush=True)
+sheet.values().append(spreadsheetId=sheet_id,
+                      range="Página1!A:G",
+                      valueInputOption='USER_ENTERED',
+                      insertDataOption='OVERWRITE',
+                      body=value_range_body).execute()
 
 # Define a pasta onde os arquivos CSV serão guardados
 processados = r'G:\Drives compartilhados\arquitetura\Documentos\Arquitetura Operacional\BACKOFFICE FINANCEIRO\DASHBOARD\DASH_OPERACIONAL\LOOKER\Arquivos_diarios\CDB_TOPAZ\Processados'
